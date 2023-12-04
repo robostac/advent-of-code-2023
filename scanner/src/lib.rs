@@ -13,15 +13,18 @@ impl<B: BufRead> Scanner<B> {
             buf_iter: "".split_whitespace(),
         }
     }
-    pub fn next<T: std::str::FromStr>(&mut self) -> T {
+    pub fn next<T: std::str::FromStr>(&mut self) -> Option<T> {
         loop {
             if let Some(token) = self.buf_iter.next() {
-                return token.parse().ok().expect("Failed parse");
+                return Some(token.parse().ok().expect("Failed parse"));
             }
             self.buf_str.clear();
-            self.reader
-                .read_until(b'\n', &mut self.buf_str)
-                .expect("Failed read");
+            let z = self.reader.read_until(b'\n', &mut self.buf_str);
+
+            if z.is_err() || z.unwrap() == 0 {
+                return None;
+            }
+
             self.buf_iter = unsafe {
                 let slice = std::str::from_utf8_unchecked(&self.buf_str);
                 std::mem::transmute(slice.split_whitespace())
