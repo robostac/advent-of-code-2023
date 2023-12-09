@@ -1,5 +1,3 @@
-use scanner::Scanner;
-use std::collections::*;
 use std::io;
 use std::io::BufRead;
 
