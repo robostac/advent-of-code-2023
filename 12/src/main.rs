@@ -45,7 +45,7 @@ fn main() {
     let stdin = io::stdin();
     let mut p1 = 0;
     let mut p2 = 0;
-    for (y, l) in stdin.lock().lines().map(|x| x.unwrap()).enumerate() {
+    for (_y, l) in stdin.lock().lines().map(|x| x.unwrap()).enumerate() {
         let (springs, nums) = l.split_once(' ').unwrap();
         let nums = nums
             .split(',')
