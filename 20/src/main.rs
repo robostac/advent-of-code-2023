@@ -197,8 +197,7 @@ fn main() {
     }
     let mut low = 0;
     let mut high = 0;
-    let dbgid = network.id["kj"];
-    network.modules[dbgid].borrow_mut().debug = true;
+
     for i in 0..1000 {
         let (l, h) = network.push_button(i);
         low += l;
@@ -209,6 +208,10 @@ fn main() {
     println!("{}", low * high);
     let mut bcount = 1000;
     if let Some(&id) = network.id.get("rx") {
+        let dbgid = network.id["kj"];
+        network.modules[dbgid].borrow_mut().debug = true;
+        //part 2
+        //this is only going to work based on my input - rx is fed by a conj called kj so we find the cycles of it's inputs
         while network.modules[dbgid].borrow().cycles.len() != network.modules[dbgid].borrow().inputs
         {
             network.push_button(bcount);
